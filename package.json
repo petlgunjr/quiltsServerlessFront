@@ -2,10 +2,14 @@
   "name": "wanda-quilts",
   "version": "0.1.0",
   "private": true,
+  "externals": [
+    "aws-sdk"
+  ],
   "dependencies": {
     "@csstools/normalize.css": "github:csstools/normalize.css",
     "aws-amplify": "^1.1.40",
     "aws-amplify-react": "^2.5.4",
+    "axios": "^0.20.0",
     "dotenv": "^8.2.0",
     "graphql": "git://github.com/graphql/graphql-js.git#npm",
     "mongoose": "^5.7.7",

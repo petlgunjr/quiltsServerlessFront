@@ -8,7 +8,6 @@ import { API } from "aws-amplify";
 import LetterNav from "./components/LetterNav";
 import Modal from "react-modal";
 import { greenTheme, greyTheme } from "./containers/theme";
-import { GlobalStyles } from "./containers/globalCSS";
 import Header from "./components/Header";
 
 function App(props) {
@@ -18,7 +17,7 @@ function App(props) {
   const [fabrics, setFabrics] = useState([]);
   const [designs, setDesigns] = useState([]);
   const [theme, setTheme] = useState('greyTheme');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [price, setPrice] = useState("");
   const { history } = props;
   const [schedule, setSchedule] = useState([]);
@@ -44,35 +43,35 @@ function App(props) {
   const kitchenGraphicCategories = ["bir", "bug", "cat", "dog", "fdk", "flr", "frm", "hol", "mil", "mis", "nat", "wdl"];
   const embroideryGraphicCategories = ["all", "afg", "air", "aki", "abd", "esk", "asc", "aus", "atr", "baj", "bas", "bea", "brd", "bed", "blm", "bls", "bel", "ber", "bic", "btc", "bch", "bld", "brc", "bod", "bor", "bos", "bou", "box", "brr", "brt", "bru", "blt", "car", "can", "cah", "cat", "kcs", "che", "chi", "chc", "cho", "clb", "cos", "col", "cor", "cot", "dox", "dal", "ddt", "dob", "bul", "eng", "spr", "flt", "fox", "fbl", "she", "grs", "gon", "gol", "gor", "grd", "grp", "gsm", "gry", "hav", "pul", "hus", "ice", "irh", "irw", "iwh", "itg", "jrt", "jpc", "kes", "ker", "lad", "lab", "lag", "lak", "leo", "lhp", "mal", "man", "mas", "min", "mor", "lgm", "new", "nor", "now", "nov", "egs", "pap", "pek", "pic", "pit", "plh", "pom", "pod", "por", "pug", "rat", "rod", "rot", "sal", "sam", "sci", "sch", "sco", "sha", "shl", "shb", "shi", "sil", "smc", "stb", "stf", "tib", "tre", "vis", "wei", "wss", "whi", "wht", "wip", "wfx", "yor"];
 
-  useEffect(() => {
-    onLoad();
-  }, []);
+  // useEffect(() => {
+  //   onLoad();
+  // }, []);
 
-  async function onLoad() {
-    try {
-      const schedule = await API.get("quilts", "/schedule");
-      setSchedule(schedule);
-      const products = await API.get("quilts", "/products");
-      setProducts(products);
-      const designs = await API.get("quilts", "/design");
-      setDesigns(designs);
-      const fabrics = await API.get("quilts", "/fabric");
-      setFabrics(fabrics);
-      setGraphicView("all");
-      await Auth.currentSession();
-      userHasAuthenticated(true);
-    }
-    catch (e) {
-      if (e !== 'No current user') {
-        onLoad();
-      }
-    }
-    setIsLoading(false);
-    setIsAuthenticating(false);
-    if (!isAuthenticating && isAuthenticated) {
-      props.history.push("/adminLoggedIn");
-    };
-  }
+  // async function onLoad() {
+  //   try {
+  //     const schedule = await API.get("quilts", "/schedule");
+  //     setSchedule(schedule);
+  //     const products = await API.get("quilts", "/products");
+  //     setProducts(products);
+  //     const designs = await API.get("quilts", "/design");
+  //     setDesigns(designs);
+  //     const fabrics = await API.get("quilts", "/fabric");
+  //     setFabrics(fabrics);
+  //     setGraphicView("all");
+  //     await Auth.currentSession();
+  //     userHasAuthenticated(true);
+  //   }
+  //   catch (e) {
+  //     if (e !== 'No current user') {
+  //       onLoad();
+  //     }
+  //   }
+  //   setIsLoading(false);
+  //   setIsAuthenticating(false);
+  //   if (!isAuthenticating && isAuthenticated) {
+  //     props.history.push("/adminLoggedIn");
+  //   };
+  // }
 
   async function handleLogout() {
     await Auth.signOut();
