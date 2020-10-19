@@ -4,11 +4,7 @@ import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import { s3Upload } from "../libs/awsLib";
 import config from "../config";
-import * as aws from 'aws-sdk';
-import axios from "axios";
 import "./NewDesign.css";
-
-const s3instance = new aws.S3();
 
 export default function NewProduct(props) {
   const imgUrlLocation = "";
@@ -49,31 +45,6 @@ export default function NewProduct(props) {
     setNewGraphic(!newGraphic ? true : false)
   }
 
-  function sign_s3(req, res) {
-    console.log("config at sign_s3: ", config);
-    setFileType(file.current.type);
-
-    const s3Params = {
-      Bucket: config.s3.BUCKET,
-      Key: name,
-      Expires: 500,
-      contentType: fileType,
-      ACL: 'public-read'
-    }
-
-    s3instance.getSignedUrl('putObject', s3Params, (err, data) => {
-      if (err) {
-        console.log("error at get signed url: ", err);
-        res.json({ success: false, error: err })
-      }
-      const returnData = {
-        signedRequest: data,
-        url: `https://${s3Params.Bucket}.s3.amazonaws.com/${name}`
-      }
-      res.json({ success: true, data: { returnData } });
-    });
-  }
-
   async function createDesign(design) {
     const response = await API.post("quilts", "/admin/design", {
       body: design
@@ -97,36 +68,6 @@ export default function NewProduct(props) {
     try {
       await s3Upload(file.current);
       const postUrl = config.apiGateway.URL;
-      console.log("post url for axios: ", postUrl);
-      axios.post(postUrl, {
-        fileName: name,
-        fileType: fileType
-      })
-        .then(response => {
-          console.log("response at axios post: ", response);
-          let returnData = response.data.data.returnData;
-          let signedRequest = returnData.signedRequest;
-          let url = returnData.url;
-          setImgUrl(url);
-          console.log("recieved a signed request: ", signedRequest);
-
-          let options = {
-            headers: {
-              'Content-Type': fileType
-            }
-          };
-          axios.put(signedRequest, file, options)
-            .then(result => {
-              console.log("Response from s3: ", result);
-              setS3Success(true);
-            })
-            .catch(error => {
-              console.log("ERROR at axios put: ", error);
-            })
-        })
-        .catch(error => {
-          console.log("ERROR at axios post: ", error);
-        })
 
       await createDesign({ name, type, subCat, imgUrl, newGraphic, hidden });
       props.history.push("/");
