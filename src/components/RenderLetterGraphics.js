@@ -11,7 +11,9 @@ export default function RenderLetterGraphics(props) {
     handleGraphicChoice
   } = props.letterProps;
 
-  const letterArr = graphics.filter(graphic =>
+  const cleanedArr = graphics.filter(graphic => { return imgBreakDown.subCat[graphic.subCat] !== undefined })
+
+  const letterArr = cleanedArr.filter(graphic =>
     imgBreakDown.subCat[graphic.subCat].substr(0, 1).toUpperCase() === letterView.toUpperCase()
   ).sort((a, b) => {
     let name1 = imgBreakDown.subCat[a.subCat];

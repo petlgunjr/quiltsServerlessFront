@@ -14,12 +14,7 @@ export default function Header(props) {
     startOver,
     setLetterView,
     setShowLetterNav,
-    LetterNav,
-    setGraphicView,
     setShowByLetter,
-    showLetterNav,
-    setLetterNavKey,
-    letterNavKey
   } = props.headerProps;
 
   return (
@@ -37,8 +32,8 @@ export default function Header(props) {
           <Nav pullRight>
             <GlobalStyles />
             <NavItem>Wanda 360-599-1816 wgunter90@gmail.com</NavItem>
-            <NavItem className="contactLink" onClick={() => props.history.push("/contact")}>Contact Us</NavItem>
-            <NavItem className="contactLink" onClick={() => props.history.push("/about")}>About Us</NavItem>
+            <NavItem className="contactLink" onClick={() => history.push("/contact")}>Contact Us</NavItem>
+            <NavItem className="contactLink" onClick={() => history.push("/about")}>About Us</NavItem>
             <NavItem className="adminLink" onClick={toggleTheme}>Color Scheme</NavItem>
             {isAuthenticated ? <NavItem onClick={handleLogout}><span className="logoutLink">Logout</span></NavItem> : null}
           </Nav>
