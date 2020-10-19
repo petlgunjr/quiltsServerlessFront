@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-quilts-dev-162926-authRole",
+      "UnauthRoleArn": "arn:aws:iam::007853961174:role/amplify-quilts-dev-162926-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::007853961174:role/amplify-quilts-dev-162926-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-quilts-dev-162926-deployment",
+      "UnauthRoleName": "amplify-quilts-dev-162926-unauthRole",
+      "StackName": "amplify-quilts-dev-162926",
+      "StackId": "arn:aws:cloudformation:us-east-2:007853961174:stack/amplify-quilts-dev-162926/eed12130-1262-11eb-9008-0ae9fb25f398",
+      "AmplifyAppId": "d149qu3hkfj4uo"
+    }
+  }
+}

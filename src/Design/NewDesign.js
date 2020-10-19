@@ -4,7 +4,28 @@ import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import { s3Upload } from "../libs/awsLib";
 import config from "../config";
+import getDbById from "../components/DBid";
+import getDbByName from "../components/DBname";
+import AWS from 'aws-sdk';
+import awsParamStore from 'aws-param-store';
+
 import "./NewDesign.css";
+
+const s3config = (
+  {
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+  }
+);
+
+AWS.config.update({ s3config });
+
+awsParamStore.getParameters([s3config.accessKeyId, s3config.secretAccessKey], { region: 'us-east-2' })
+  .then((parameter) => {
+    console.log("system parameter: ", parameter)
+    // Parameter info object for '/project1/my-parameter'
+  });
+const s3 = new AWS.S3();
 
 export default function NewProduct(props) {
   const imgUrlLocation = "";
@@ -20,6 +41,7 @@ export default function NewProduct(props) {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [s3Success, setS3Success] = useState(false);
+  const [s3UploadReturn, setS3UploadReturn] = useState(null);
 
   function validateForm() {
     return name.length > 0 &&
@@ -66,11 +88,32 @@ export default function NewProduct(props) {
     setIsLoading(true);
 
     try {
-      await s3Upload(file.current);
-      const postUrl = config.apiGateway.URL;
-
-      await createDesign({ name, type, subCat, imgUrl, newGraphic, hidden });
-      props.history.push("/");
+      const nameUrl = `/design/name/EMBafg1104`
+      await s3Upload(file.current, setS3UploadReturn);
+      if (setS3UploadReturn) {
+        console.log("s3UploadReturn: ", s3UploadReturn);
+        s3.getObject(
+          { Bucket: "wandaquilts", Key: file.current.name },
+          function (error, data) {
+            if (error != null) {
+              alert("Failed to retrieve an object: " + error);
+            } else {
+              alert("Loaded " + data.ContentLength + " bytes");
+              console.log("data returned from s3: ", data.Body);
+              // do something with data.Body
+            }
+          }
+        );
+        await getDbByName(name, nameUrl)
+        await createDesign({ name, type, subCat, imgUrl, newGraphic, hidden });
+        console.log("name in new design: ", name);
+        props.history.push("/");
+        alert("Upload successful");
+      } else {
+        console.log("error in new design");
+        return;
+        // handleSubmit(event)
+      }
     } catch (e) {
       alert(e);
       setIsLoading(false);
