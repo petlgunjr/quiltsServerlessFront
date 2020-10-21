@@ -3,7 +3,7 @@ import { API } from 'aws-amplify';
 
 export default async function getDbByName(name, nameUrl) {
   console.log("nameUrl in dbname: ", nameUrl);
-  await API.get("quilts", nameUrl).then(res => console.log("Results for freshArr: ", res))
+  await API.get("quilts", `/${name}`).then(res => console.log("Results for freshArr: ", res))
   // await freshArr;
   // console.log("freshArr at name: ", freshArr);
   // const result = freshArr.filter(item => { return item.name === name })

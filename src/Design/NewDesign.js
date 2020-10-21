@@ -6,26 +6,7 @@ import { s3Upload } from "../libs/awsLib";
 import config from "../config";
 import getDbById from "../components/DBid";
 import getDbByName from "../components/DBname";
-import AWS from 'aws-sdk';
-import awsParamStore from 'aws-param-store';
-
 import "./NewDesign.css";
-
-const s3config = (
-  {
-    accessKeyId: process.env.ACCESS_KEY_ID,
-    secretAccessKey: process.env.SECRET_ACCESS_KEY,
-  }
-);
-
-AWS.config.update({ s3config });
-
-awsParamStore.getParameters([s3config.accessKeyId, s3config.secretAccessKey], { region: 'us-east-2' })
-  .then((parameter) => {
-    console.log("system parameter: ", parameter)
-    // Parameter info object for '/project1/my-parameter'
-  });
-const s3 = new AWS.S3();
 
 export default function NewProduct(props) {
   const imgUrlLocation = "";
@@ -74,7 +55,7 @@ export default function NewProduct(props) {
     return response.key;
   }
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
 
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
@@ -89,36 +70,69 @@ export default function NewProduct(props) {
 
     try {
       const nameUrl = `/design/name/EMBafg1104`
-      await s3Upload(file.current, setS3UploadReturn);
-      if (setS3UploadReturn) {
-        console.log("s3UploadReturn: ", s3UploadReturn);
-        s3.getObject(
-          { Bucket: "wandaquilts", Key: file.current.name },
-          function (error, data) {
-            if (error != null) {
-              alert("Failed to retrieve an object: " + error);
-            } else {
-              alert("Loaded " + data.ContentLength + " bytes");
-              console.log("data returned from s3: ", data.Body);
-              // do something with data.Body
-            }
+      s3Upload(file.current, setS3UploadReturn)
+        .then(s3UploadResults => {
+          console.log("s3UploadReturn: ", s3UploadResults);
+          if (s3UploadReturn !== undefined) {
+            getDbByName(name, nameUrl)
+              .then((getDbByNameResults) => {
+                console.log("results from getDbByName: ", getDbByNameResults);
+                createDesign({ name, type, subCat, imgUrl, newGraphic, hidden });
+              })
+              .then(createDesignResults => {
+                console.log("createDesign results: ", createDesignResults)
+                props.history.push("/");
+                setIsLoading(false);
+                alert("Upload successful");
+              })
+          } else {
+            console.log("error in new design");
+            return;
+            // handleSubmit(event)
           }
-        );
-        await getDbByName(name, nameUrl)
-        await createDesign({ name, type, subCat, imgUrl, newGraphic, hidden });
-        console.log("name in new design: ", name);
-        props.history.push("/");
-        alert("Upload successful");
-      } else {
-        console.log("error in new design");
-        return;
-        // handleSubmit(event)
-      }
+        });
     } catch (e) {
       alert(e);
       setIsLoading(false);
     }
   }
+
+  // async function handleSubmit(event) {
+  //   event.preventDefault();
+
+  //   if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
+  //     alert(
+  //       `Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE /
+  //       1000000} MB.`
+  //     );
+  //     return;
+  //   }
+
+  //   setIsLoading(true);
+
+  //   try {
+  //     const nameUrl = `/design/name/EMBafg1104`
+  //     await s3Upload(file.current, setS3UploadReturn)
+  //       .then(async function (results) {
+  //         if (setS3UploadReturn !== null) {
+  //           console.log("s3UploadReturn: ", s3UploadReturn);
+  //           await getDbByName(name, nameUrl)
+  //           await createDesign({ name, type, subCat, imgUrl, newGraphic, hidden });
+  //           console.log("name in new design: ", name);
+  //           props.history.push("/");
+  //           alert("Upload successful");
+  //         } else {
+  //           console.log("error in new design");
+  //           return;
+  //           // handleSubmit(event)
+  //         }
+  //       });
+  //   } catch (e) {
+  //     alert(e);
+  //     setIsLoading(false);
+  //   }
+  // }
+
 
   return (
     <div className="NewDesign">

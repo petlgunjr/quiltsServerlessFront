@@ -9,7 +9,6 @@
     "@csstools/normalize.css": "github:csstools/normalize.css",
     "aws-amplify": "^1.1.40",
     "aws-amplify-react": "^2.5.4",
-    "aws-param-store": "^3.2.0",
     "dotenv": "^8.2.0",
     "graphql": "git://github.com/graphql/graphql-js.git#npm",
     "mongoose": "^5.7.7",
