@@ -1,23 +1,23 @@
-import { Storage } from "aws-amplify";
+import { Storage, API } from "aws-amplify";
 
-export async function s3Upload(file, setS3UploadReturn) {
+export async function s3Upload(file, callback) {
   const filename = file.name;
+  let s3SignedUrl = "";
   await Storage.vault.put(filename, file, { contentType: file.type })
     .then(storagePutResult => {
       console.log("s3 storage result: ", storagePutResult)
-      setS3UploadReturn(storagePutResult);
       Storage.vault.get(storagePutResult.key)
-        .then(dbreturn => {
-          console.log("inside storage.get: ", dbreturn.split("?")[0]);
+        .then(signedUrl => {
+          console.log("inside storage.get: ", signedUrl);
+          s3SignedUrl = signedUrl;
+          callback(signedUrl);
         });
-      // return true;
     })
     .catch(err => {
       console.log("s3 storage err: ", err);
-      setS3UploadReturn(null);
       return false;
     });
-
+  return s3SignedUrl;
 
   // const stored = await Storage.vault.put(filename, file, {
   //   contentType: file.type

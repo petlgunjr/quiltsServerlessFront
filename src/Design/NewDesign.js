@@ -9,7 +9,6 @@ import getDbByName from "../components/DBname";
 import "./NewDesign.css";
 
 export default function NewProduct(props) {
-  const imgUrlLocation = "";
   // const imgLinkLocation = "https://wandaquilts.s3.us-east-2.amazonaws.com/private/us-east-2%3A2f67acc9-e8bd-4aa4-b6cf-074193ad94e4/";
   const file = useRef(null);
   const [name, setName] = useState("");
@@ -22,7 +21,6 @@ export default function NewProduct(props) {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [s3Success, setS3Success] = useState(false);
-  const [s3UploadReturn, setS3UploadReturn] = useState(null);
 
   function validateForm() {
     return name.length > 0 &&
@@ -55,7 +53,7 @@ export default function NewProduct(props) {
     return response.key;
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
@@ -69,28 +67,26 @@ export default function NewProduct(props) {
     setIsLoading(true);
 
     try {
-      const nameUrl = `/design/name/EMBafg1104`
-      s3Upload(file.current, setS3UploadReturn)
-        .then(s3UploadResults => {
-          console.log("s3UploadReturn: ", s3UploadResults);
-          if (s3UploadReturn !== undefined) {
-            getDbByName(name, nameUrl)
-              .then((getDbByNameResults) => {
-                console.log("results from getDbByName: ", getDbByNameResults);
-                createDesign({ name, type, subCat, imgUrl, newGraphic, hidden });
-              })
-              .then(createDesignResults => {
-                console.log("createDesign results: ", createDesignResults)
-                props.history.push("/");
-                setIsLoading(false);
-                alert("Upload successful");
-              })
-          } else {
-            console.log("error in new design");
-            return;
-            // handleSubmit(event)
-          }
-        });
+      await s3Upload(file.current, (signedUrl) => {
+        console.log("s3Upload signedUrl return: ", signedUrl);
+        if (signedUrl !== undefined) {
+          getDbByName(signedUrl)
+            .then((getDbByNameResults) => {
+              console.log("results from getDbByName: ", getDbByNameResults);
+              createDesign({ name, type, subCat, imgUrl, newGraphic, hidden });
+            })
+            .then(createDesignResults => {
+              console.log("createDesign results: ", createDesignResults)
+              props.history.push("/");
+              setIsLoading(false);
+              alert("Upload successful");
+            })
+        } else {
+          console.log("error in new design");
+          return;
+          // handleSubmit(event)
+        }
+      });
     } catch (e) {
       alert(e);
       setIsLoading(false);

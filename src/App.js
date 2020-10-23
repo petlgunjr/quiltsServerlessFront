@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Auth } from "aws-amplify";
+import Amplify, { Auth, Storage, API } from "aws-amplify";
 import { withRouter } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { ThemeProvider } from "styled-components";
 import Routes from "./Routes";
-import { API } from "aws-amplify";
 import LetterNav from "./components/LetterNav";
 import Modal from "react-modal";
 import { greenTheme, greyTheme } from "./containers/theme";
 import Header from "./components/Header";
+import awsConfigure from "./aws-exports";
+
+Amplify.configure(awsConfigure)
 
 function App(props) {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
