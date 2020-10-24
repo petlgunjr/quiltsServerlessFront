@@ -68,13 +68,13 @@ export default function NewProduct(props) {
 
     try {
       await s3Upload(file.current, (signedUrl) => {
-        console.log("s3Upload signedUrl return: ", signedUrl);
+        const urlForNameSearch = `/design/name/${name}`
+        console.log("urlForNameSearch after s3upload: ", urlForNameSearch);
         if (signedUrl !== undefined) {
-          getDbByName(signedUrl)
-            .then((getDbByNameResults) => {
-              console.log("results from getDbByName: ", getDbByNameResults);
-              createDesign({ name, type, subCat, imgUrl, newGraphic, hidden });
-            })
+          getDbByName(urlForNameSearch, dbGetByNameResults => {
+            console.log("results from getDbByName: ", dbGetByNameResults);
+            createDesign({ name, type, subCat, imgUrl, newGraphic, hidden });
+          })
             .then(createDesignResults => {
               console.log("createDesign results: ", createDesignResults)
               props.history.push("/");
