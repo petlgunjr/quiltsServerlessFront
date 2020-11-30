@@ -328,7 +328,14 @@ const imgBreakDown = {
       }
     },
     {
-      TLB: {
+      TBL: {
+        subCat: "TLB",
+        type: "Tortilla Bags",
+        desc: `<p><span style="font-size: 22px">The perfect bag for heating your tortilla's or rolls in the microwave.&nbsp; Bag is 14" across so the large tortilla's fit perfectly,&nbsp;you can then&nbsp;put the bag on the table to keep them warm. Can also be used for that extra waffle or pancakes. Bags are all handmade from 100% cotton that has been prewashed to prevent shrinkage. Lots of designs to choose from.</span></p><p>&nbsp;</p><p><span style="font-size: 22px"><span style="font-size: 24px"><span style="color: #0000ff"><span style="background-color: #00ff00">&nbsp; FREE SHIPPING ON ORDERS $60.00 AND OVER</span></span></span></span></p>`,
+        price: "10.00",
+        imgLocation: "TortillaBag.jpg"
+      },
+      TBS: {
         subCat: "TLB",
         type: "Tortilla Bags",
         desc: `<p><span style="font-size: 22px">The perfect bag for heating your tortilla's or rolls in the microwave.&nbsp; Bag is 10" across so the small and medium tortilla's fit perfectly,&nbsp;you can then&nbsp;put the bag on the table to keep them warm. Can also be used for that extra waffle or pancakes. Bags are all handmade from 100% cotton that has been prewashed to prevent shrinkage. Lots of designs to choose from.</span></p><p>&nbsp;</p><p><span style="font-size: 22px"><span style="font-size: 24px"><span style="color: #0000ff"><span style="background-color: #00ff00">&nbsp; FREE SHIPPING ON ORDERS $60.00 AND OVER</span></span></span></span></p>`,

@@ -8,9 +8,9 @@ import LetterNav from "./components/LetterNav";
 import Modal from "react-modal";
 import { greenTheme, greyTheme } from "./containers/theme";
 import Header from "./components/Header";
-import awsConfigure from "./aws-exports";
+// import awsConfigure from "./aws-exports";
 
-Amplify.configure(awsConfigure)
+// Amplify.configure(awsConfigure)
 
 function App(props) {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
