@@ -51,8 +51,14 @@ export default function KitchenHome(props) {
   const typeToRender = "KIT";
   const graphics = fabrics;
   const graphicCategories = kitchenGraphicCategories;
-  const sizesToChoose = ["sm", "md", "lg", "x1", "x2", "x3", "x4", "x5"];
-  const sizesToDisplay = ["Sm", "Md", "Lg", "1X", "2X", "3X", "4X", "5X"];
+  const sizesToChoose = ["sm", "md", "lg", "x1", "x2", "x3", "x4", "x5", "d10", "d14"];
+  const sizesToDisplay = ["Sm", "Md", "Lg", "1X", "2X", "3X", "4X", "5X", "10inch", "14inch"];
+  if (productChosen) {
+    console.log("Product Choice: ", productChoice);
+  }
+  if (graphicChosen) {
+    console.log("size Choice: ", sizeChoice);
+  }
 
   return (
     <div className="KitchenHome container">
@@ -127,6 +133,7 @@ export default function KitchenHome(props) {
                 productChoice.subCat === "HOO" ||
                 productChoice.subCat === "HOZ" ||
                 productChoice.subCat === "SWT" ||
+                productChoice.subCat === "TLB" ||
                 // productChoice.subCat === "TSL" ||
                 productChoice.subCat === "TSS" ||
                 productChoice.subCat === "VES" ? (
@@ -139,6 +146,7 @@ export default function KitchenHome(props) {
               productChoice.subCat === "HOO" ||
               productChoice.subCat === "HOZ" ||
               productChoice.subCat === "SWT" ||
+              productChoice.subCat === "TLB" ||
               // productChoice.subCat === "TSL" ||
               productChoice.subCat === "TSS" ||
               productChoice.subCat === "VES" ? (

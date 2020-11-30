@@ -35,6 +35,7 @@ export default function RenderProducts(props) {
               product.subCat === "HOO" ||
               product.subCat === "HOZ" ||
               product.subCat === "SWT" ||
+              product.subCat === "TLB" ||
               // product.subCat === "TSL" ||
               product.subCat === "TSS" ||
               product.subCat === "VES"
