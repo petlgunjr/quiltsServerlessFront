@@ -153,7 +153,6 @@ function App(props) {
   }
 
   function handleSizeChoice(e) {
-    console.log("handleSizeChoice: ", e.target.value);
     setSizeChoicePaypalId(e.target.value.split(" ")[1]);
     setSizeChoice(e.target.value.split(" ")[0]);
     setPrice(e.target.value.split("$")[1]);

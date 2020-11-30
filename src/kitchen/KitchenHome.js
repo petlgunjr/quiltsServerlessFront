@@ -53,12 +53,6 @@ export default function KitchenHome(props) {
   const graphicCategories = kitchenGraphicCategories;
   const sizesToChoose = ["sm", "md", "lg", "x1", "x2", "x3", "x4", "x5", "d10", "d14"];
   const sizesToDisplay = ["Sm", "Md", "Lg", "1X", "2X", "3X", "4X", "5X", "10inch", "14inch"];
-  if (productChosen) {
-    console.log("Product Choice: ", productChoice);
-  }
-  if (graphicChosen) {
-    console.log("size Choice: ", sizeChoice);
-  }
 
   return (
     <div className="KitchenHome container">
